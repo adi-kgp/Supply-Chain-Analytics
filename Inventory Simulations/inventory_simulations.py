@@ -12,7 +12,6 @@ apple_juice = skus[['apple_juice']]
 # Different Policy Implementations (Min Q, Periodic Review, Hybrid, Base Stock)
 
 # 1. Min Q or (S,Q) Policy
-
 mean_apple = apple_juice.mean() 
 
 sd_apple = apple_juice.std()
@@ -30,3 +29,42 @@ apple_sq = inv.sim_min_Q_normal(demand = apple_juice,
                      inventory_cost=1)
 
 apple_sq[0].to_csv('Apple_sq.csv')
+
+# 2. Min-max policy
+grape_juice = inv.sim_min_max_pois(demand=skus.grape_juice, 
+                                   lambda1=skus.grape_juice.mean(), 
+                                   leadtime=7, 
+                                   service_level=0.8, 
+                                   Max=30,
+                                   shortage_cost=1,
+                                   ordering_cost=1,
+                                   inventory_cost=1)
+
+grape_juice[0].to_csv('grape_juice.csv')
+
+
+## 3. Periodic policy
+cantalop_juice = skus[['cantalop_juice']]
+
+cantalop = inv.Periodic_review_pois(demand=cantalop_juice, 
+                         lambda1=cantalop_juice.mean(), 
+                         leadtime=7, 
+                         service_level=0.9, 
+                         Review_period=3,
+                         ordering_cost=1,
+                         inventory_cost=1,
+                         shortage_cost=1)
+
+# 4. Hybrid Policy
+cantalop_hybrid = inv.Hibrid_pois(demand=cantalop_juice, 
+                         lambda1=cantalop_juice.mean(), 
+                         leadtime=7, 
+                         service_level=0.9, 
+                         Review_period=3,
+                         ordering_cost=1,
+                         inventory_cost=1,
+                         shortage_cost=1,
+                         Min=120)
+
+cantalop_hybrid[0].to_csv('cantalop_hybrid.csv')
+
