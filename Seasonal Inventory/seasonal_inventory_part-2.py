@@ -60,4 +60,4 @@ empty_data.head()
 
 # example inspection
 
-empty_data.loc[1,:]
+empty_data.iloc[1,:]
